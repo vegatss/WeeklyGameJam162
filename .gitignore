@@ -59,3 +59,6 @@ sysinfo.txt
 crashlytics-build.properties
 
 WeeklyGameJam162/Temp/UnityLockfile
+*.dwlt
+*.backup
+WeeklyGameJam162/Temp/UnityTempFile-04be1236ce004f545ab4f49014a56591
