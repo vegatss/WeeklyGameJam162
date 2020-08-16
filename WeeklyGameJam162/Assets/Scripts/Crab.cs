@@ -25,11 +25,7 @@ public class Crab : MonoBehaviour {
 	}
     private void OnDisable() {
         StopAllCoroutines();
-        if(speedBoosted) {
-        
-        }
     }
-
     private void GetInput() {
         if(Input.GetKey(leftKey)) {
             transform.Translate(Vector3.left * movementSpeed * Time.deltaTime, Space.Self);
@@ -44,7 +40,6 @@ public class Crab : MonoBehaviour {
             transform.Rotate(Vector3.back * rotationSpeed * Time.deltaTime, Space.Self);
         }
     }
-
     public void GetSpeedBoost(float seconds, float amount) {
         if(speedBoosted) {
             StopCoroutine(speedBoost);
