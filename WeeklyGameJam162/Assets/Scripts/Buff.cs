@@ -2,18 +2,22 @@
 
 public class Buff : MonoBehaviour {
 
-    private ScriptableBuff buff;
+    private IConsumable buff;
     private Crab crab;
+    private SpriteRenderer spriteRenderer;
 
-    public void SetBuff(ScriptableBuff buff) {
+    public void SetBuff(IConsumable buff) {
         this.buff = buff;
+        spriteRenderer.sprite = this.buff.GetSprite();
     }
-    private void Start() {
+    private void Awake() {
+        spriteRenderer = GetComponent<SpriteRenderer>();
         crab = FindObjectOfType<Crab>();
     }
     private void OnTriggerEnter2D(Collider2D collision) {
         if(collision.CompareTag("Player")) {
-            buff.Activate(crab);
+            buff.Consume(crab);
+            gameObject.SetActive(false);
         }
     }
 }
