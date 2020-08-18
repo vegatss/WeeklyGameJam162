@@ -33,7 +33,9 @@ public class SeaAnimation : MonoBehaviour {
             spriteIndex = 0;
         }
         yield return new WaitForSeconds(animationSpeed);
-        StartCoroutine(AnimateSea());
+        if(gameObject.activeInHierarchy) {
+            StartCoroutine(AnimateSea());
+        }        
     }
     private IEnumerator AnimateEdges() {
         for(int i = -horizontal; i < horizontal; i++) {
