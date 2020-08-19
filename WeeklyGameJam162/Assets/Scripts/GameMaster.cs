@@ -11,7 +11,7 @@ public class GameMaster : MonoBehaviour {
     public Transform[] spawnPoints;
     public TextMeshProUGUI scoreText;
     //public Buff[] buffs;
-    private readonly float maxSpawnTime = 0.94f;
+    private readonly float maxSpawnTime = 3.53f;
     private float currentSpawnTime;
     private IConsumable[] consumables;
     private int score;
@@ -24,12 +24,12 @@ public class GameMaster : MonoBehaviour {
 
     private void Start() {
         consumables = new IConsumable[8];
-        consumables[0] = new Food(projectileSprites[0], 30f, 30f, 3f, 6f, 30f, 0.3f);
+        consumables[0] = new Food(projectileSprites[0], 30f, 30f, 3f, 6f, 30f, 0.8f);
         consumables[1] = new Trash(projectileSprites[1], 20f, 3f, 3f, 8f, 4f);
         consumables[2] = new Trash(projectileSprites[2], 24f, 1f, 1f, 12f, 2f);
         consumables[3] = new Trash(projectileSprites[3], 16f, 2f, 4f, 11f, 5f);
-        consumables[4] = new Food(projectileSprites[4], 20f, 25f, 5f, 4f, 15f, 0.8f);
-        consumables[5] = new Food(projectileSprites[5], 15f, 15f, 2f, 9f, 40f, 0.2f);
+        consumables[4] = new Food(projectileSprites[4], 20f, 25f, 5f, 4f, 15f, 1.4f);
+        consumables[5] = new Food(projectileSprites[5], 15f, 15f, 2f, 9f, 40f, 0.7f);
         consumables[6] = new Trash(projectileSprites[6], 32f, 1f, 6f, 8f, 6f);
         consumables[7] = new Trash(projectileSprites[7], 24f, 4f, 2f, 7f, 8f);
     }
@@ -47,13 +47,14 @@ public class GameMaster : MonoBehaviour {
         spawning = true;
         score = 0;
         currentSpawnTime = 0f;
-        StartCoroutine(SpawnBuff());
         StartCoroutine(ScoreCounter());
+        StartCoroutine(SpawnBuff());        
     }
     private IEnumerator ScoreCounter() {
+        currentSpawnTime = Mathf.Clamp(currentSpawnTime + 0.01f, 0.01f, maxSpawnTime);
         yield return new WaitForSeconds(1);
         ++score;
-        scoreText.text = score.ToString();
+        scoreText.text = score.ToString();        
         if(gameObject.activeInHierarchy) {
             StartCoroutine(ScoreCounter());
         }
@@ -73,9 +74,8 @@ public class GameMaster : MonoBehaviour {
         // 4 is worms++
         // 5 is moss++
         // 6 is plastic bottles
-        // 7 is wrappers
-        currentSpawnTime = Mathf.Clamp(currentSpawnTime + 0.008f, 0.12f, maxSpawnTime);
-        float spawnCooldown = -Mathf.Log(currentSpawnTime) * 1.2f;
+        // 7 is wrappers        
+        float spawnCooldown = -Mathf.Log(currentSpawnTime, 10) * 1.7f + 1f;
         int buffType = Random.Range(0, 8);
         Vector2 spawnPoint;        
         if(buffType == 0 || buffType == 5) {
@@ -101,8 +101,7 @@ public class GameMaster : MonoBehaviour {
                     break;
             }
         }
-        Vector3 movementDirection = (Random.insideUnitCircle * 8) - spawnPoint;
-        yield return new WaitForSeconds(spawnCooldown);
+        Vector3 movementDirection = (Random.insideUnitCircle * 8) - spawnPoint;        
         GameObject clone = ObjectPooler.objectPooler.GetPooledObject("Buff");
         if(clone) {
             clone.GetComponent<Buff>().SetBuff(consumables[buffType], movementDirection);
@@ -110,6 +109,7 @@ public class GameMaster : MonoBehaviour {
             clone.transform.rotation = Quaternion.identity;
             clone.SetActive(true);
         }
+        yield return new WaitForSeconds(spawnCooldown);
         if(spawning) {
             StartCoroutine(SpawnBuff());
         }        

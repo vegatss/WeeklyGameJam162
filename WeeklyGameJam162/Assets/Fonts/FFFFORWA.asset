@@ -53,9 +53,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
   m_Name: FFFFORWA
   m_EditorClassIdentifier: 
-  hashCode: 0
+  hashCode: 2124461387
   material: {fileID: 8806103016035325868}
-  materialHashCode: 0
+  materialHashCode: 26003680
   m_Version: 1.1.0
   m_SourceFontFileGUID: 181f0d32911b9f941bdfc0b81a5a2732
   m_SourceFontFile_EditorRef: {fileID: 0}
@@ -2409,7 +2409,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _FaceTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 283f897e4925411ebbaa758b4cb13fc2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:

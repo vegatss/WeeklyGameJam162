@@ -34,6 +34,24 @@ public class Buff : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D collision) {
         if(collision.CompareTag("Player")) {
             buff.Consume(crab);
+            if(buff is Food) {
+                SoundSystem.audioManager.PlaySound("Bite");
+                GameObject goodParticle = ObjectPooler.objectPooler.GetPooledObject("GoodParticles");
+                if(goodParticle) {
+                    goodParticle.transform.position = transform.position;
+                    goodParticle.transform.rotation = Quaternion.identity;
+                    goodParticle.SetActive(true);
+                }
+            }
+            else if(buff is Trash) {
+                SoundSystem.audioManager.PlaySound("Trash");
+                GameObject badParticle = ObjectPooler.objectPooler.GetPooledObject("BadParticles");
+                if(badParticle) {
+                    badParticle.transform.position = collision.transform.position;
+                    badParticle.transform.rotation = Quaternion.identity;
+                    badParticle.SetActive(true);
+                }
+            }
             gameObject.SetActive(false);
         }
     }
