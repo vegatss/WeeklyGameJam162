@@ -23,6 +23,7 @@ public class GameMaster : MonoBehaviour {
     public TextMeshProUGUI endScore;
 
     private void Start() {
+        SoundSystem.audioManager.PlaySound("Theme");
         consumables = new IConsumable[8];
         consumables[0] = new Food(projectileSprites[0], 30f, 30f, 3f, 6f, 30f, 0.8f);
         consumables[1] = new Trash(projectileSprites[1], 20f, 3f, 3f, 8f, 4f);
